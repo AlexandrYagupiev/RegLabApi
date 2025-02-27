@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35806.99 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegLabApi", "RegLabApi\RegLabApi.csproj", "{C92723BB-1839-4991-92D6-4C95D0011617}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProjectRegLabApi", "TestProjectRegLabApi\TestProjectRegLabApi.csproj", "{8548C120-6DE4-4687-BCDA-C477570C95BD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C92723BB-1839-4991-92D6-4C95D0011617}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C92723BB-1839-4991-92D6-4C95D0011617}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C92723BB-1839-4991-92D6-4C95D0011617}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C92723BB-1839-4991-92D6-4C95D0011617}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8548C120-6DE4-4687-BCDA-C477570C95BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8548C120-6DE4-4687-BCDA-C477570C95BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8548C120-6DE4-4687-BCDA-C477570C95BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8548C120-6DE4-4687-BCDA-C477570C95BD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {53F381E9-E25E-4F94-991F-9BE397FC4FE2}
+	EndGlobalSection
+EndGlobal
