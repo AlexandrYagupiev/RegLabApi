@@ -6,17 +6,38 @@ namespace RegLabApi.SignalR
     {
         public async Task SendMessage(string user, string message)
         {
-            await Clients.All.SendAsync("ПолучитьСообщение", user, message);
+            try
+            {
+                await Clients.All.SendAsync("ПолучитьСообщение", user, message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ошибка отправки уведомления.", ex);
+            }
         }
 
         public async Task SubscribeToEvents(string eventType)
         {
-            await Groups.AddToGroupAsync(Context.ConnectionId, eventType);
+            try
+            {
+                await Groups.AddToGroupAsync(Context.ConnectionId, eventType);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("При добавлений в группу произошла ошибка", ex);
+            }
         }
 
         public async Task UnsubscribeFromEvents(string eventType)
         {
-            await Groups.RemoveFromGroupAsync(Context.ConnectionId, eventType);
+            try
+            {
+                await Groups.RemoveFromGroupAsync(Context.ConnectionId, eventType);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("При удалении в группу произошла ошибка", ex);
+            }
         }
     }
 }

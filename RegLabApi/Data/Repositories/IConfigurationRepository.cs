@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using RegLabApi.Data.Entities;
 using RegLabApi.Models;
 
 

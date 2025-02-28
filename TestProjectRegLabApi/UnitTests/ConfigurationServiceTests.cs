@@ -3,7 +3,6 @@ using Moq;
 using RegLabApi.Services;
 using RegLabApi.Data.Repositories;
 using RegLabApi.Models;
-using RegLabApi.Data.Entities;
 
 
 namespace TestProjectRegLabApi.UnitTests
