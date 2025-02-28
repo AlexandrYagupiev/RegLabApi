@@ -16,19 +16,19 @@ namespace RegLabApi.Data.Repositories
             _context = context;
         }
 
-        public IEnumerable<Configuration> GetAll()
+        public async Task<IEnumerable<Configuration>> GetAllAsync()
         {
-            return _context.Configurations.ToList();
+            return await _context.Configurations.ToListAsync();
         }
 
-        public Configuration GetById(int id)
+        public async Task<Configuration> GetByIdAsync(int id)
         {
             if (id <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(id), "Идентификатор конфигурации должен быть положительным числом.");
             }
 
-            var entity = _context.Configurations.Find(id);
+            var entity = await _context.Configurations.FindAsync(id);
 
             if (entity == null)
             {
@@ -38,7 +38,7 @@ namespace RegLabApi.Data.Repositories
             return entity;
         }
 
-        public void Add(Configuration configuration)
+        public async Task AddAsync(Configuration configuration)
         {
             if (configuration == null)
             {
@@ -59,10 +59,10 @@ namespace RegLabApi.Data.Repositories
                 Version = 1
             };
             _context.Configurations.Add(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Update(Configuration configuration)
+        public async Task UpdateAsync(Configuration configuration)
         {
             if (configuration == null)
             {
@@ -74,7 +74,8 @@ namespace RegLabApi.Data.Repositories
                 throw new ArgumentException("Имя конфигурации не может быть пустым.", nameof(configuration.Name));
             }
 
-            var existingConfig = _context.Configurations.Find(configuration.Id);
+            var existingConfig =await _context.Configurations.FindAsync(configuration.Id);
+
             if (existingConfig == null)
             {
                 throw new InvalidOperationException($"Конфигурация с идентификатором {configuration.Id} не найдена.");
@@ -84,10 +85,10 @@ namespace RegLabApi.Data.Repositories
             existingConfig.Value = configuration.Value;
             existingConfig.UpdatedAt = DateTime.Now;
             existingConfig.Version++;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Remove(Configuration configuration)
+        public async Task RemoveAsync(Configuration configuration)
         {
             if (configuration == null)
             {
@@ -95,7 +96,7 @@ namespace RegLabApi.Data.Repositories
             }
 
             _context.Configurations.Remove(configuration);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

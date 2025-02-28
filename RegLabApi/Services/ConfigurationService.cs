@@ -4,6 +4,7 @@ using RegLabApi.Models;
 using RegLabApi.Data.Repositories;
 using Microsoft.AspNetCore.SignalR;
 using RegLabApi.SignalR;
+using System.Threading.Tasks;
 
 namespace RegLabApi.Services
 {
@@ -18,10 +19,10 @@ namespace RegLabApi.Services
             _hubContext = hubContext;
         }
 
-        public IEnumerable<Configuration> GetAll(string nameFilter = null, DateTime? dateFilter = null)
+        public async Task<IEnumerable<Configuration>> GetAllAsync(string nameFilter = null, DateTime? dateFilter = null)
         {
 
-            var configurations = _configurationRepository.GetAll().Select(config => new Configuration
+            var configurations = await _configurationRepository.GetAllAsync().Select(config => new Configuration
             {
                 Id = config.Id,
                 Name = config.Name,
@@ -46,14 +47,14 @@ namespace RegLabApi.Services
             return configurations;
         }
 
-        public Configuration GetById(int id)
+        public async Task<Configuration> GetById(int id)
         {
             if (id <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(id), "Идентификатор конфигурации должен быть положительным числом.");
             }
 
-            var configuration = _configurationRepository.GetById(id);
+            var configuration =await _configurationRepository.GetByIdAsync(id);
             return new Configuration
             {
                 Id = configuration.Id,
@@ -65,7 +66,7 @@ namespace RegLabApi.Services
             };
         }
 
-        public void Create(Configuration configuration)
+        public async Task CreateAsync(Configuration configuration)
         {
             if (configuration == null)
             {
@@ -80,20 +81,20 @@ namespace RegLabApi.Services
                 UpdatedAt = DateTime.Now,
                 Version = 1
             };
-            _configurationRepository.Add(entity);
+            await _configurationRepository.AddAsync(entity);
 
             // Отправка уведомления о создании конфигурации
-            _hubContext.Clients.All.SendAsync("ConfigurationCreated", configuration.Name);
+            await _hubContext.Clients.All.SendAsync("ConfigurationCreated", configuration.Name);
         }
 
-        public void Update(Configuration configuration)
+        public async Task UpdateAsync(Configuration configuration)
         {
             if (configuration == null)
             {
                 throw new ArgumentNullException(nameof(configuration));
             }
 
-            var existingConfig = _configurationRepository.GetById(configuration.Id);
+            var existingConfig = await _configurationRepository.GetByIdAsync(configuration.Id);
 
             if (existingConfig == null)
             {
@@ -106,22 +107,22 @@ namespace RegLabApi.Services
                 existingConfig.Value = configuration.Value;
                 existingConfig.UpdatedAt = DateTime.Now;
                 existingConfig.Version++;
-                _configurationRepository.Update(existingConfig);
+                await _configurationRepository.UpdateAsync(existingConfig);
 
                 // Отправка уведомления об обновлении конфигурации
-                _hubContext.Clients.All.SendAsync("ConfigurationUpdated", configuration.Name);
+                await _hubContext.Clients.All.SendAsync("ConfigurationUpdated", configuration.Name);
             }
         }
 
-        public void Delete(int id)
+        public async Task DeleteAsync(int id)
         {
-            var configuration = _configurationRepository.GetById(id);
+            var configuration =await _configurationRepository.GetByIdAsync(id);
             if (configuration != null)
             {
-                _configurationRepository.Remove(configuration);
+                await _configurationRepository.RemoveAsync(configuration);
 
                 // Отправка уведомления об удалении конфигурации
-                _hubContext.Clients.All.SendAsync("ConfigurationDeleted", configuration.Name);
+                await _hubContext.Clients.All.SendAsync("ConfigurationDeleted", configuration.Name);
             }
         }
     }

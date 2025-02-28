@@ -18,13 +18,13 @@ namespace RegLabApi.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Configuration>> Get()
         {
-            return Ok(_configurationService.GetAll());
+            return Ok(_configurationService.GetAllAsync());
         }
 
         [HttpGet("{id}")]
         public ActionResult<Configuration> Get(int id)
         {
-            var configuration = _configurationService.GetById(id);
+            var configuration = _configurationService.GetByIdAsync(id);
             if (configuration == null)
             {
                 return NotFound();
@@ -35,7 +35,7 @@ namespace RegLabApi.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] Configuration configuration)
         {
-            _configurationService.Create(configuration);
+            _configurationService.CreateAsync(configuration);
             return CreatedAtAction(nameof(Get), new { id = configuration.Id }, configuration);
         }
 
@@ -47,14 +47,14 @@ namespace RegLabApi.Controllers
                 return BadRequest();
             }
 
-            _configurationService.Update(configuration);
+            _configurationService.UpdateAsync(configuration);
             return NoContent();
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            _configurationService.Delete(id);
+            _configurationService.DeleteAsync(id);
             return NoContent();
         }
     }

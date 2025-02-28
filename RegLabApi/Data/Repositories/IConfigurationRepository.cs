@@ -6,10 +6,10 @@ namespace RegLabApi.Data.Repositories
 {
     public interface IConfigurationRepository
     {
-        IEnumerable<Configuration> GetAll();
-        Configuration GetById(int id);
-        void Add(Configuration configuration);
-        void Update(Configuration configuration);
-        void Remove(Configuration configuration);
+        Task<IEnumerable<Configuration>> GetAllAsync();
+        Task<Configuration> GetByIdAsync(int id);
+        Task AddAsync(Configuration configuration);
+        Task UpdateAsync(Configuration configuration);
+        Task RemoveAsync(Configuration configuration);
     }
 }
