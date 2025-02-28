@@ -18,8 +18,9 @@ namespace RegLabApi.Services
             _hubContext = hubContext;
         }
 
-        public IEnumerable<Configuration> GetAll()
+        public IEnumerable<Configuration> GetAll(string nameFilter = null, DateTime? dateFilter = null)
         {
+
             var configurations = _configurationRepository.GetAll().Select(config => new Configuration
             {
                 Id = config.Id,
@@ -29,6 +30,19 @@ namespace RegLabApi.Services
                 UpdatedAt = config.UpdatedAt,
                 Version = config.Version
             });
+
+            // Фильтрация по названию
+            if (!string.IsNullOrEmpty(nameFilter))
+            {
+                configurations = configurations.Where(e => e.Name.Contains(nameFilter));
+            }
+
+            // Фильтрация по дате создания
+            if (dateFilter.HasValue)
+            {
+                configurations = configurations.Where(e => e.CreatedAt >= dateFilter.Value);
+            }
+
             return configurations;
         }
 
